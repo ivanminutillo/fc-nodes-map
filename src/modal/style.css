@@ -1,0 +1,53 @@
+.Background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(51, 60, 69, .95);
+  z-index: 10000000;
+  height: 100%;
+  justify-content: center;
+  overflow: auto;
+  cursor: pointer;
+}
+
+
+.Dialog {
+  width: 700px;
+  box-shadow: 0 2px 8px 3px rgba(0, 0, 0, 0.3);
+  z-index: 9999999999;
+  background-color: #edeff0;
+  padding: 0;
+  margin: 40px auto;
+  position: relative;
+  border-radius: 3px;
+  padding-bottom: 20px;
+  outline: none;
+  top: 50px;
+  position: absolute;
+  left: 700px;
+  margin-left: -350px;
+}
+
+
+.Actions {
+  lost-utility: clearfix;
+  padding-top: 10px;
+  padding-right: 10px;
+  margin-bottom: -50px;
+}
+.Actions:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.Content:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.Close {
+  float: right;
+  cursor: pointer;
+}
