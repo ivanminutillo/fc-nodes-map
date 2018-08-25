@@ -6,11 +6,9 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { compose, withState, withHandlers } from "recompose";
 import NodeCard from "./nodeCard";
-import {Icons} from 'oce-components/build'
 import "./App.css";
 
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iml2YW4iLCJpYXQiOjE1MjkzNDYxOTYsInBhc3N3b3JkIjoiNDRkN2I5YmYyYWZiNmMyN2Q5NDk1MzhhNGQwY2RjYWM0NDgzZDUwNSIsImlkIjoyNjd9.BqohFPzbp5176Gpmr5OhFImqo9wgaB8115hdyxM8PgQ";
+const token = "Insert your OCP Token";
 
 const Body = styled.div`
   width: 100%;
@@ -18,14 +16,14 @@ const Body = styled.div`
   position: relative;
 `;
 const Title = styled.h1`
-color: #fff;
-border-radius: 2px;
-font-size: 16px;
-font-weight: 500;
-margin: 0;
-height: 50px;
-line-height: 50px;
-text-align: center;
+  color: #fff;
+  border-radius: 2px;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
 `;
 
 const PopupTitle = styled.h5`
@@ -37,9 +35,7 @@ const PopupTitle = styled.h5`
   text-align: center;
 `;
 
-const MapWrapper = styled.div`
- 
-`;
+const MapWrapper = styled.div``;
 
 const Button = styled.button`
   background-color: #2588d0;
@@ -67,15 +63,15 @@ const Button = styled.button`
 `;
 
 const Header = styled.div`
-height: 50px;
-    background: #0f4a63d4;
-    position: absolute;
-    bottom: 10px;
-    width: 230px;
-    left: 10px;
-    z-index: 999999;
-    padding: 0 10px;
-    border-radius: 4px;
+  height: 50px;
+  background: #0f4a63d4;
+  position: absolute;
+  bottom: 10px;
+  width: 230px;
+  left: 10px;
+  z-index: 999999;
+  padding: 0 10px;
+  border-radius: 4px;
 `;
 
 const Link = styled.div``;
@@ -125,10 +121,12 @@ const FairCoopMap = props => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
                   {allNodes.map((node, i) => (
-                    <Marker position={node} >
+                    <Marker position={node}>
                       <Popup>
                         <PopupTitle>{node.name}</PopupTitle>
-                        <Button onClick={() => props.openModal(node.id)}>Open</Button>
+                        <Button onClick={() => props.openModal(node.id)}>
+                          Open
+                        </Button>
                       </Popup>
                     </Marker>
                   ))}
@@ -138,7 +136,11 @@ const FairCoopMap = props => {
           );
         }}
       </Query>
-      <NodeCard toggleModal={props.openModal} modalIsOpen={props.isOpen} id={props.id}/>
+      <NodeCard
+        toggleModal={props.openModal}
+        modalIsOpen={props.isOpen}
+        id={props.id}
+      />
     </div>
   );
 };
@@ -146,7 +148,7 @@ const FairCoopMap = props => {
 const GET_DOGS = gql`
   query {
     viewer(
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iml2YW4iLCJpYXQiOjE1MjkzNDYxOTYsInBhc3N3b3JkIjoiNDRkN2I5YmYyYWZiNmMyN2Q5NDk1MzhhNGQwY2RjYWM0NDgzZDUwNSIsImlkIjoyNjd9.BqohFPzbp5176Gpmr5OhFImqo9wgaB8115hdyxM8PgQ"
+      token: ${token}
     ) {
       agent(id: 172) {
         name
@@ -179,9 +181,9 @@ export default compose(
   withState("isOpen", "toggleModal", false),
   withState("id", "addId", null),
   withHandlers({
-    openModal: props => (id) => {
+    openModal: props => id => {
       props.toggleModal(!props.isOpen);
-      props.addId(id)
+      props.addId(id);
     }
   })
 )(FairCoopMap);
