@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import Leaflet from "leaflet";
 import styled from "styled-components";
@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { compose, withState, withHandlers } from "recompose";
 import NodeCard from "./nodeCard";
-import {Button} from 'oce-components/build'
+import {Icons} from 'oce-components/build'
 import "./App.css";
 
 const token =
@@ -18,15 +18,14 @@ const Body = styled.div`
   position: relative;
 `;
 const Title = styled.h1`
-  color: #333;
-  display: inline-block;
-  border-radius: 2px;
-  font-size: 16px;
-  font-weight: 500;
-  margin: 0;
-  height: 50px;
-  line-height: 50px;
-  float: left;
+color: #fff;
+border-radius: 2px;
+font-size: 16px;
+font-weight: 500;
+margin: 0;
+height: 50px;
+line-height: 50px;
+text-align: center;
 `;
 
 const PopupTitle = styled.h5`
@@ -39,19 +38,44 @@ const PopupTitle = styled.h5`
 `;
 
 const MapWrapper = styled.div`
-  padding-top: 50px;
+ 
+`;
+
+const Button = styled.button`
+  background-color: #2588d0;
+  border: 10px none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  height: 36px;
+  letter-spacing: 0;
+  line-height: 36px;
+  overflow: hidden;
+  padding: 0 16px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  transition: all 0.1s ease-in;
+  white-space: nowrap;
+  width: 100%;
 `;
 
 const Header = styled.div`
-  height: 50px;
-  background: #fff;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999999999999999999999;
-  padding: 0 10px;
-  box-shadow: 0 0px 10px 0px rgba(0, 0, 0, 0.2);
+height: 50px;
+    background: #0f4a63d4;
+    position: absolute;
+    bottom: 10px;
+    width: 230px;
+    left: 10px;
+    z-index: 999999;
+    padding: 0 10px;
+    border-radius: 4px;
 `;
 
 const Link = styled.div``;
@@ -66,7 +90,7 @@ Leaflet.Icon.Default.imagePath =
 const state = {
   lat: 51.505,
   lng: -0.09,
-  zoom: 3
+  zoom: 2.5
 };
 const FairCoopMap = props => {
   const position = [state.lat, state.lng];
@@ -101,10 +125,10 @@ const FairCoopMap = props => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
                   {allNodes.map((node, i) => (
-                    <Marker position={node} onClick={() => console.log("hhhh")}>
+                    <Marker position={node} >
                       <Popup>
                         <PopupTitle>{node.name}</PopupTitle>
-                        <Button onClick={props.openModal}>Open</Button>
+                        <Button onClick={() => props.openModal(node.id)}>Open</Button>
                       </Popup>
                     </Marker>
                   ))}
@@ -114,7 +138,7 @@ const FairCoopMap = props => {
           );
         }}
       </Query>
-      <NodeCard toggleModal={props.openModal} modalIsOpen={props.isOpen} />
+      <NodeCard toggleModal={props.openModal} modalIsOpen={props.isOpen} id={props.id}/>
     </div>
   );
 };
@@ -153,10 +177,11 @@ const GET_DOGS = gql`
 
 export default compose(
   withState("isOpen", "toggleModal", false),
+  withState("id", "addId", null),
   withHandlers({
-    openModal: props => () => {
-      console.log('here')
+    openModal: props => (id) => {
       props.toggleModal(!props.isOpen);
+      props.addId(id)
     }
   })
 )(FairCoopMap);

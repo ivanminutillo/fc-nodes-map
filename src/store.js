@@ -8,6 +8,7 @@ const Client = new ApolloClient({
   // Pass the configuration option { uri: YOUR_GRAPHQL_API_URL } to the `HttpLink` to connect
   // to a different host
   link: new HttpLink({
+    // uri: 'https://testocp.freedomcoop.eu/api/graph'
     uri: 'https://ocp.freedomcoop.eu/api/graph'
   }),
   cache: new InMemoryCache(),
